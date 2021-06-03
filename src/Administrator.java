@@ -12,13 +12,11 @@ public class Administrator extends JFrame implements ActionListener{
 
 	   JPanel pn; 
 	   
-	   // 버튼 8개 - 초기화, 캠핑카 대여회사, 캠핑카, 고객, 캠핑카 정비소, 캠핑카반환, 수리, 검색
-	   JButton btn_init, btn_student, btn_car, btn_cust, btn_shop, btn_return, btn_repair, btn_search;
+	 
+	   JButton btn_init, btn_student, btn_professor, btn_Department, btn_lecture, btn_lecture_history, btn_circle, btn_tuition_payment;
 	   
 	   
-	   Statement stmt;
-	   
-	   
+	 
 	   public Administrator(){
 	      super("관리자");
 	      layInit();
@@ -37,24 +35,24 @@ public class Administrator extends JFrame implements ActionListener{
 	      // 버튼 8개 초기화
 	      btn_init = new JButton("DB 초기화");
 	      btn_student = new JButton("학생관리");
-	      btn_car = new JButton("캠핑카 관리");
-	      btn_cust = new JButton("고객 관리");
-	      btn_shop = new JButton("정비소");
-	      btn_return = new JButton("캠핑카 반환");
-	      btn_repair = new JButton("캠핑카 수리");
-	      btn_search = new JButton("검색");
+	      btn_professor = new JButton("교수관리");
+	      btn_Department = new JButton("학과관리");
+	      btn_lecture = new JButton("강좌관리");
+	      btn_lecture_history = new JButton("수강내역관리");
+	      btn_circle = new JButton("동아리관리");
+	      btn_tuition_payment = new JButton("납부내역관리");
 	      
 	      
 	      pn.setLayout(new GridLayout(2,4));
 	      // 패널에 버튼 8개 추가
 	      pn.add(btn_init);
 	      pn.add(btn_student);
-	      pn.add(btn_car);
-	      pn.add(btn_cust);
-	      pn.add(btn_shop);
-	      pn.add(btn_return);
-	      pn.add(btn_repair);
-	      pn.add(btn_search);
+	      pn.add(btn_professor);
+	      pn.add(btn_Department);
+	      pn.add(btn_lecture);
+	      pn.add(btn_lecture_history);
+	      pn.add(btn_circle);
+	      pn.add(btn_tuition_payment);
 	      
 	      add(pn);
 	      
@@ -62,19 +60,40 @@ public class Administrator extends JFrame implements ActionListener{
 	      
 	      // Add ActionListner
 	      btn_student.addActionListener(this);
+	      btn_professor.addActionListener(this);
+	      btn_Department.addActionListener(this);
+	      btn_lecture.addActionListener(this);
+	      btn_lecture_history.addActionListener(this);
+	      btn_circle.addActionListener(this);
+	      btn_tuition_payment.addActionListener(this);
 
 	   }
 	   
 	   public void actionPerformed(ActionEvent e) {    
-		      try {
+		    
 		         if (e.getSource() == btn_student){
 		        	 Manage_Student manage_Student = new Manage_Student();
 		        	 manage_Student.setVisible(true);
+		         }else if(e.getSource() == btn_professor) {
+		        	 Manage_Professor manage_professor = new Manage_Professor();
+		        	 manage_professor.setVisible(true);
+		         }else if(e.getSource() == btn_Department) {
+		        	 Manage_Department manage_Department = new Manage_Department();
+		        	 manage_Department.setVisible(true);
+		         }else if(e.getSource() == btn_lecture) {
+		        	 Manage_Lecture manage_lecture = new Manage_Lecture();
+		        	 manage_lecture.setVisible(true);
+		         }else if(e.getSource() == btn_lecture_history) {
+		        	 Manage_Lecture_History manage_lecture_history = new Manage_Lecture_History();
+		        	 manage_lecture_history.setVisible(true);
+		         }else if(e.getSource() == btn_circle) {
+		        	 Manage_Circles manage_circles = new Manage_Circles();
+		        	 manage_circles.setVisible(true);
+		         }else if(e.getSource() == btn_tuition_payment) {
+		        	 Manage_tuition_payment manage_tuition_payment = new Manage_tuition_payment();
+		        	 manage_tuition_payment.setVisible(true);
 		         }
 		         
-		      } catch (Exception e2) {
-		         System.out.println("Main 쿼리 읽기 실패 :" + e2);
-		         System.out.println("오류 발생!"); 
-		      }
+		      
 	   }
 }

@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.*;
 import java.awt.event.*;
 
+
 public class Main extends JFrame  implements ActionListener{
 
 	
@@ -70,25 +71,20 @@ public class Main extends JFrame  implements ActionListener{
 
 	   
 	   public void actionPerformed(ActionEvent e) {    
-		      try {
-		         if (e.getSource() == btn_adm) {
-		        	 System.out.println("adm");
-		        	 administrator.setVisible(true);
-		        	 
-		         }else if (e.getSource() == btn_student) {
-		        	 System.out.println("user");
-		        	 student.setVisible(true);
-		        	
-		         }
-		         else if (e.getSource() == btn_professor) {
-		        	 System.out.println("user");
-		        	 professor.setVisible(true);
-		        	
-		         }
-		      } catch (Exception e2) {
-		         System.out.println("Main 쿼리 읽기 실패 :" + e2);
-		         System.out.println("오류 발생!"); 
-		      }
+	         if (e.getSource() == btn_adm) {
+	        	 System.out.println("adm");
+	        	 administrator.setVisible(true);
+	        	 
+	         }else if (e.getSource() == btn_student) {
+	        	 System.out.println("user");
+	        	 student.setVisible(true);
+	        	
+	         }else if (e.getSource() == btn_professor) {
+	        	 System.out.println("user");
+	        	 professor.setVisible(true);
+	        	
+	         }
+	      
 		   }
 	   
 	   
