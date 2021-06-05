@@ -13,22 +13,25 @@ import javax.swing.*;
 
 public class Student_LookUp extends JFrame implements ActionListener{
 	JPanel pn; 
-	JButton btn_lecture_lookup;
-	JLabel student_number, year, semester;
-	JTextField tf_student_number, tf_year, tf_semester;
+	JLabel lecture_LookUp, circle_lookup, grade_lookup , label_grade, label_credit;
+	JButton btn_lecture_lookup, btn_circle_lookup, btn_grade_lookup;
+	JLabel student_number, year, semester, circle_student_number, student_grade_number;
+	JTextField tf_student_number, tf_year, tf_semester, tf_circle_student_number, tf_student_grade_number;
 	
 	
-	JTextArea lecture_history_table, professor_table, lecture_table, circle_table, department_table;
-	JScrollPane lecture_history_scrollPane, professor_scrollPane, lecture_scrollPane, circle_scrollPane, department_scrollPane;
+	JTextArea lecture_history_table, professor_table, lecture_table, circle_table, department_table, grade_table;
+	JScrollPane lecture_history_scrollPane, professor_scrollPane, lecture_scrollPane, circle_scrollPane, department_scrollPane, grade_table_scrollPane;
 	
 	
 	PreparedStatement pstmt = null; // SQL문을 DB에 보내기 위한 객체
     Statement stmt;
-    ResultSet rs;
+    ResultSet rs, rs2;
     String Driver = "";
     String url = "jdbc:mysql://localhost:3306/madang?&serverTimezone=Asia/Seoul&useSSL=false";
     String userid = "madang";
     String pwd = "madang";
+    
+ 
 	Connection con;
 	
 	public Student_LookUp() {
@@ -97,6 +100,9 @@ public class Student_LookUp extends JFrame implements ActionListener{
 	      tf_semester = new JTextField("");
 	      tf_semester.setBounds(255, 10, 50, 30);
 	      
+	      lecture_LookUp = new JLabel("강좌 조회");
+	      lecture_LookUp.setBounds(420, 10, 100, 30);
+	      
 	      lecture_history_table = new JTextArea();
 	      lecture_history_scrollPane = new JScrollPane(lecture_history_table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 	      lecture_history_scrollPane.setBounds(10, 40, 600, 200);
@@ -111,15 +117,77 @@ public class Student_LookUp extends JFrame implements ActionListener{
 	      pn.add(tf_year);
 	      pn.add(semester);
 	      pn.add(tf_semester);
+	      pn.add(lecture_LookUp);
 	      
-	      
+	      //동아리조회
+	      btn_circle_lookup = new JButton("조회");
+	      btn_circle_lookup.setBounds(730, 10, 100, 30);
+	      circle_student_number = new JLabel("학번");
+	      circle_student_number.setBounds(620, 10, 40, 30);
+	      tf_circle_student_number = new JTextField("");
+	      tf_circle_student_number.setBounds(655, 10, 70, 30);
 
+	      
+	      circle_lookup = new JLabel("동아리조회");
+	      circle_lookup.setBounds(850, 10, 100, 30);
+	      
+	      circle_table = new JTextArea();
+	      circle_scrollPane = new JScrollPane(circle_table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	      circle_scrollPane.setBounds(620, 40, 600, 200);
+	      
+	      
+	      pn.add(btn_circle_lookup);
+	      pn.add(circle_student_number);
+	      pn.add(tf_circle_student_number);
+	      pn.add(circle_lookup);
+	      pn.add(circle_scrollPane);
+	      
+	      
+	      
+	      //성적 조회
+	      btn_grade_lookup = new JButton("조회");
+	      btn_grade_lookup.setBounds(120, 260, 100, 30);
+	      student_grade_number = new JLabel("학번");
+	      student_grade_number.setBounds(10, 260, 40, 30);
+	      tf_student_grade_number = new JTextField("");
+	      tf_student_grade_number.setBounds(45, 260, 70, 30);
+
+	      
+	      grade_lookup = new JLabel("성적조회");
+	      grade_lookup.setBounds(420, 260, 100, 30);
+	      
+	      grade_table = new JTextArea();
+	      grade_table_scrollPane = new JScrollPane(grade_table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	      grade_table_scrollPane.setBounds(10, 300, 600, 200);
+	      
+	      label_credit = new JLabel("취득 학점 : ");
+	      label_grade = new JLabel("평점 : (4.5만점)");
+	      
+	      label_credit.setBounds(10, 520, 200, 30);
+	      label_grade.setBounds(240, 520, 200, 30);
+	      
+	      pn.add(btn_grade_lookup);
+	      pn.add(student_grade_number);
+	      pn.add(student_grade_number);
+	      pn.add(tf_student_grade_number);
+	      pn.add(grade_table_scrollPane);
+	      pn.add(grade_lookup);
+	      pn.add(label_credit);
+	      pn.add(label_grade);
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      
 	      add(pn);
 	      pn.setVisible(true);
 	      
 	      btn_lecture_lookup.addActionListener(this);
-	      
-	     
+	      btn_circle_lookup.addActionListener(this);
+	      btn_grade_lookup.addActionListener(this);
 	   }
 
 	@Override
@@ -154,6 +222,96 @@ public class Student_LookUp extends JFrame implements ActionListener{
 //			            
 //	            	}
 				}
+			}else if(e.getSource() == btn_circle_lookup) {
+				String query = "select * from circles where number IN (select Circles_c_number from  student_has_circles where Student_s_number = ?) ";
+
+	    		pstmt = con.prepareStatement(query);
+    			pstmt.setInt(1, Integer.parseInt( tf_circle_student_number.getText()));
+
+    			circle_table.setText("");
+    			 
+	            rs = pstmt.executeQuery();
+	            
+
+    			circle_table.setText("번호                  이름                  학생 수                    회장                   지도교수               동아리방\n");
+
+	    		
+	            while (rs.next()) {
+	            	circle_table.append(rs.getInt(1) + "\t" + rs.getString(2) +"\t" + rs.getString(3) + "\t" + rs.getString(4) + "\t" + rs.getString(5) + "\t" +rs.getString(6) + "\n");
+	            	
+	            	query = "select * from student where number IN (select Student_s_number from student_has_circles where Circles_c_number = ?) ";
+
+		    		pstmt = con.prepareStatement(query);
+	    			pstmt.setInt(1, rs.getInt(1));
+
+	    			 
+		            rs2 = pstmt.executeQuery();
+	            	
+		            
+		           
+		            if(rs.getInt(4) == Integer.parseInt(tf_circle_student_number.getText())) {
+		            	circle_table.append("\n\n동아리 회장입니다. 모든 학생의 정보를 표시합니다.");
+		            	circle_table.append("\n번호           학생이름                  주소                       전화번호               이메일                    전공            부전공           지도교수      계좌정보\n");
+		            	 while(rs2.next()) {
+					            
+					            circle_table.append(rs2.getInt(1) + "\t" + rs2.getString(2) +"\t" + rs2.getString(3) + "\t" + rs2.getString(4) + "\t" + rs2.getString(5) + "\t" +rs2.getString(6) + "\t" + rs2.getString(6) +"\t" + rs2.getString(8) +"\t" + rs2.getString(9) + "\n");
+				            	
+				            }  	
+				            circle_table.append("\n");
+
+		            }
+		        }
+
+			}else if(e.getSource() == btn_grade_lookup){
+					int total_credit=0;
+				    float avg_grade=0;
+				    double caculate_grade=0;
+				
+				 	String query = "select Lecture_number, grade  from lecture_history where Student_number = ? ;";
+		    		pstmt = con.prepareStatement(query);
+	    			pstmt.setInt(1, Integer.parseInt( tf_student_grade_number.getText()));
+		            rs = pstmt.executeQuery();
+		           
+		            grade_table.setText("과목번호              과목명                 취득학점               평점\n");
+	            	
+		            
+
+
+	            	
+		            
+		            while (rs.next()) {
+		            	String query2 = "select grade,name from lecture where number IN ( select Lecture_number from lecture_history where Lecture_number = ?)";
+			            pstmt = con.prepareStatement(query2);
+		    			pstmt.setInt(1, rs.getInt(1));
+			            rs2 = pstmt.executeQuery();
+			            rs2.next();
+
+		            	
+		               String str = rs.getInt(1) + "\t" +  rs2.getString(2) + "\t" + rs2.getInt(1) + "\t" + rs.getString(2) + "\n";
+		               grade_table.append(str);
+
+		               String A = rs.getString(2);
+		               if(rs.getString(2).equals("A")) {
+			               total_credit += rs2.getInt(1);
+		            	   caculate_grade += ((double) (rs2.getInt(1) * 4.5));
+		               }else  if(rs.getString(2).equals("B")) {
+			               total_credit += rs2.getInt(1);
+		            	   caculate_grade += ((double) (rs2.getInt(1) * 3.5));
+		               }else  if(rs.getString(2).equals("C")) {
+			               total_credit += rs2.getInt(1);
+		            	   caculate_grade += ((double) (rs2.getInt(1) * 2.5));
+		               }else  if(rs.getString(2).equals("D")) {
+			               total_credit += rs2.getInt(1);
+		            	   caculate_grade += ((double) (rs2.getInt(1) * 1.5));
+		               }else if(rs.getString(2).equals("F")) {
+		            	   caculate_grade += ((double) (rs2.getInt(1) * 0));
+		               }else {
+		            	   System.out.println(A);
+		               }
+		            }
+		            avg_grade = (float) (caculate_grade / total_credit);
+		            label_credit.setText("취득 학점 : " + total_credit);
+		            label_grade.setText("평점 : " + avg_grade + "(4.5만점)");
 			}
 		}catch(Exception e1) {
 			System.out.println(e1);

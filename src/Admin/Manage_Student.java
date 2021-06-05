@@ -55,9 +55,9 @@ public class Manage_Student extends JFrame implements ActionListener{
 	      name=new JLabel("학생 이름(필수)");
 	      addr=new JLabel("학생 주소(필수)");
 	      phone=new JLabel("학생 전화번호(필수)");
-	      email=new JLabel("학생 이메일");
+	      email=new JLabel("학생 이메일(필수)");
 	      main_major=new JLabel("학생 전공(필수)");
-	      sub_major=new JLabel("학생 부전공");
+	      sub_major=new JLabel("학생 부전공(필수)");
 	      professor = new JLabel("지도 교수(필수)");
 	      account = new JLabel("등록금 납부계좌(필수)");
 	      circles = new JLabel("동아리");

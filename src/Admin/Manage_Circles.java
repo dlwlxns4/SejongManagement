@@ -163,7 +163,23 @@ public class Manage_Circles extends JFrame implements ActionListener{
 		            
 
 		            ta_state.setText("동아리 정보가 입력되었습니다.");
-		           	            
+		           	
+		            
+		            //동아리 정보 입력 시 동아리 학생관계 정보삽입
+		            try{
+		            sql = "insert into student_has_circles(Student_s_number, Circles_c_number) value(?,?)";
+		            pstmt = con.prepareStatement(sql);
+		            
+		            pstmt.setInt(1, Integer.parseInt(tf_chairman.getText()));
+		            pstmt.setInt(2, Integer.parseInt(tf_number.getText()));
+		            pstmt.executeUpdate();
+		            }catch(SQLException e1) {
+		            	System.out.println(e1);
+		            }catch(Exception e1) {
+		            	System.out.println(e1);
+		            }
+		            
+		            
 		            tf_number.setText("");
 		            tf_name.setText("");
 		            tf_member_number.setText("");
@@ -171,16 +187,18 @@ public class Manage_Circles extends JFrame implements ActionListener{
 		            tf_professor.setText("");
 		            tf_office.setText("");
 		            
+		            		
+		            	
 		            
-		         }catch (SQLException e1) {
+		         }catch(SQLException e1) {
 		        	 if(e1.getErrorCode() == 1062)
-		        		 ta_state.setText("중복된 동아리 번호입니다.");
-		        	 
-		              
-		             else {
-		            	   ta_state.setText("필수 정보를 모두 입력해주세요.");
-		               }
-		         }catch(Exception e1) {
+		        		 ta_state.setText("중복된 동아리번호입니다.");
+		        	 else {
+		        		 System.out.println(e1);
+		        		 System.out.println(e1.getErrorCode());
+		        	 }
+		         }
+		         catch(Exception e1) {
 		        	 System.out.println(e1.toString());
 		         }
 		    	
