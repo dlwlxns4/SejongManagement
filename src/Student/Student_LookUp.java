@@ -132,7 +132,7 @@ public class Student_LookUp extends JFrame implements ActionListener{
 
 				
 				
-	            String query = "select * from lecture_history where student_number = ? and year_taken = ? and semester_taken = ? ;";
+	            String query = "select * from lecture_history where Student_number = ? and year = ? and semester = ? ;";
 	            
 
 	    		pstmt = con.prepareStatement(query);
