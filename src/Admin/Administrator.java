@@ -1,3 +1,5 @@
+package Admin;
+
 import java.awt.GridLayout;
 import java.awt.event.*;
 import java.sql.Connection;
@@ -7,13 +9,12 @@ import javax.swing.*;
 
 
 
-
 public class Administrator extends JFrame implements ActionListener{
 
 	   JPanel pn; 
 	   
 	 
-	   JButton btn_init, btn_student, btn_professor, btn_Department, btn_lecture, btn_lecture_history, btn_circle, btn_tuition_payment;
+	   JButton btn_table_Lookup,btn_init, btn_student, btn_professor, btn_Department, btn_lecture, btn_lecture_history, btn_circle, btn_tuition_payment;
 	   
 	   
 	 
@@ -21,7 +22,7 @@ public class Administrator extends JFrame implements ActionListener{
 	      super("관리자");
 	      layInit();
 
-	      setBounds(200, 200, 500, 300);       
+	      setBounds(200, 200, 600, 300);       
 	   }
 
 	   public void layInit() {
@@ -41,9 +42,10 @@ public class Administrator extends JFrame implements ActionListener{
 	      btn_lecture_history = new JButton("수강내역관리");
 	      btn_circle = new JButton("동아리관리");
 	      btn_tuition_payment = new JButton("납부내역관리");
+	      btn_table_Lookup = new JButton("테이블조회");
 	      
 	      
-	      pn.setLayout(new GridLayout(2,4));
+	      pn.setLayout(new GridLayout(2,5));
 	      // 패널에 버튼 8개 추가
 	      pn.add(btn_init);
 	      pn.add(btn_student);
@@ -53,6 +55,7 @@ public class Administrator extends JFrame implements ActionListener{
 	      pn.add(btn_lecture_history);
 	      pn.add(btn_circle);
 	      pn.add(btn_tuition_payment);
+	      pn.add(btn_table_Lookup);
 	      
 	      add(pn);
 	      
@@ -66,6 +69,7 @@ public class Administrator extends JFrame implements ActionListener{
 	      btn_lecture_history.addActionListener(this);
 	      btn_circle.addActionListener(this);
 	      btn_tuition_payment.addActionListener(this);
+	      btn_table_Lookup.addActionListener(this);
 
 	   }
 	   
@@ -92,6 +96,9 @@ public class Administrator extends JFrame implements ActionListener{
 		         }else if(e.getSource() == btn_tuition_payment) {
 		        	 Manage_tuition_payment manage_tuition_payment = new Manage_tuition_payment();
 		        	 manage_tuition_payment.setVisible(true);
+		         }else if(e.getSource() == btn_table_Lookup) {
+		        	 Admin_Table_LookUp admin_Table_LookUp = new Admin_Table_LookUp();
+		        	 admin_Table_LookUp.setVisible(true);
 		         }
 		         
 		      

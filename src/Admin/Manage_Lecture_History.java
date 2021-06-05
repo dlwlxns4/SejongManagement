@@ -1,3 +1,4 @@
+package Admin;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -18,8 +19,8 @@ import javax.swing.JTextField;
 
 public class Manage_Lecture_History extends JFrame implements ActionListener{
 	JLabel number, student_number, lecture_number, professor_number,
-			attendance_score, midterm_score, final_score, else_score, total, grade, information_del, information_update; 
-    JTextField tf_number, tf_student_number,tf_lecture_number,tf_professor_number,
+			attendance_score, midterm_score, final_score, else_score, total, grade, information_del, information_update, year_taken, semester_taken; 
+    JTextField tf_number, tf_student_number,tf_lecture_number,tf_professor_number, tf_year_taken, tf_semester_taken,
     			tf_attendance_score,tf_midterm_score, tf_final_score,tf_else_score,tf_total,tf_grade;
     JButton btn_input,btn_del,btn_update;
     
@@ -59,6 +60,9 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		  else_score=new JLabel("기타 점수(필수)");
 		  total=new JLabel("총점(필수)");
 		  grade=new JLabel("평점(필수)");
+		  year_taken=new JLabel("수강 년도(20XX)(필수)");
+		  semester_taken=new JLabel("수강 학기(1 or 2)(필수)");
+		  
 		  
 		  
 	      information_del = new JLabel("삭제하는 경우 삭제할  번호만 입력하면 삭제완료");
@@ -77,12 +81,14 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 	      tf_else_score=new JTextField();
 	      tf_total=new JTextField();
 	      tf_grade=new JTextField();
+	      tf_year_taken=new JTextField();
+	      tf_semester_taken=new JTextField();
 	      
 	      btn_input=new JButton("입력");
 	      btn_del=new JButton("삭제");
 	      btn_update=new JButton("수정");
 	      
-	      pn.setLayout(new GridLayout(11,2));
+	      pn.setLayout(new GridLayout(13,2));
 		  pn_btn.setLayout(new GridLayout(1,3));
 		   
 		  pn.add(number);	   
@@ -114,6 +120,12 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		   
 		  pn.add(grade);
 		  pn.add(tf_grade);
+		   
+		  pn.add(year_taken);	
+		  pn.add(tf_year_taken);
+		   
+		  pn.add(semester_taken);
+		  pn.add(tf_semester_taken);
 	      
 		  
 	      pn_btn.add(btn_input);
@@ -166,9 +178,8 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {    
 		   ta_state.setText("");
 		    if (e.getSource() == btn_input){
-		    	sql = "insert into lecture_history(number, student_number, lecture_number, professor_number"
-		    			+ ", attendance_score, midterm_score, final_score, else_score, total_score,"
-		    			+ "grade) value(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		    	sql = "insert into lecture_history(number, Student_number, Lecture_number, Professor_number"
+		    			+ ", attendance_score, midterm_score, final_score, else_score, total_score, grade, year, semester) value(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		    	
 		    	conDB();
 		    	try {  
@@ -183,17 +194,22 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		    		if(tf_professor_number.getText().length()!=0)
 		    			pstmt.setInt(4, Integer.parseInt(tf_professor_number.getText()) );
 		    		if(tf_attendance_score.getText().length()!=0)
-		    			pstmt.setInt(5, Integer.parseInt( tf_attendance_score.getText()));
+		    			pstmt.setString(5, tf_attendance_score.getText());
 		    		if(tf_midterm_score.getText().length()!=0)
-		    			pstmt.setInt(6, Integer.parseInt(tf_midterm_score.getText()));
+		    			pstmt.setString(6, tf_midterm_score.getText());
 		    		if(tf_final_score.getText().length()!=0)
-		    			pstmt.setInt(7, Integer.parseInt(tf_final_score.getText()));
+		    			pstmt.setString(7, tf_final_score.getText());
 		    		if(tf_else_score.getText().length()!=0)
-		    			pstmt.setInt(8, Integer.parseInt(tf_else_score.getText()) );
-		    		if(tf_total.getText().length()!=0)
-		    			pstmt.setInt(9, Integer.parseInt(tf_total.getText()));
+		    			pstmt.setString(8, tf_else_score.getText() );
+		    		
+		    		pstmt.setString(9, tf_total.getText());
 		    		if(tf_grade.getText().length()!=0)
 		    			pstmt.setString(10, (tf_grade.getText()));
+		    		
+		    		if(tf_year_taken.getText().length() !=0  )
+		    			pstmt.setString(11, tf_year_taken.getText());
+		    		
+		    		pstmt.setString(12, tf_semester_taken.getText());
 		            pstmt.executeUpdate();
 		            
 
@@ -209,6 +225,8 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		            tf_else_score.setText("");
 		            tf_total.setText("");
 		            tf_grade.setText("");
+		            tf_semester_taken.setText("");
+		            tf_year_taken.setText("");
 		            
 		            
 		         }catch (SQLException e1) {
@@ -217,6 +235,7 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		        	 
 		              
 		             else {
+		            	 System.out.println(e1);
 		            	   ta_state.setText("필수 정보를 모두 입력해주세요.");
 		               }
 		         }catch(Exception e1) {

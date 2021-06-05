@@ -7,9 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JButton;
+
+import Admin.Administrator;
+
 import javax.swing.*;
 import java.awt.event.*;
 
+import Admin.*;
+import Student.*;
 
 public class Main extends JFrame  implements ActionListener{
 
@@ -22,7 +27,7 @@ public class Main extends JFrame  implements ActionListener{
 	
 	   Administrator administrator;
 	   Professor professor;
-	   Student student;
+	   Student_LookUp student;
 	   
 	   
 	   //main panel
@@ -59,7 +64,7 @@ public class Main extends JFrame  implements ActionListener{
 	      
 	      administrator = new Administrator();
 	      professor = new Professor();
-	      student = new Student();
+	      student = new Student_LookUp();
 	      
 	      
 	      btn_adm.addActionListener(this);
