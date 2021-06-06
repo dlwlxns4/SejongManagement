@@ -15,6 +15,7 @@ import java.awt.event.*;
 
 import Admin.*;
 import Student.*;
+import professor_.*;
 
 public class Main extends JFrame  implements ActionListener{
 

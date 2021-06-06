@@ -1,5 +1,6 @@
 package Admin;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import java.sql.Connection;
@@ -14,7 +15,7 @@ public class Administrator extends JFrame implements ActionListener{
 	   JPanel pn; 
 	   
 	 
-	   JButton btn_table_Lookup,btn_init, btn_student, btn_professor, btn_Department, btn_lecture, btn_lecture_history, btn_circle, btn_tuition_payment;
+	   JButton btn_table_Lookup,btn_student_professor, btn_student, btn_professor, btn_Department, btn_lecture, btn_lecture_history, btn_circle, btn_tuition_payment, btn_department_lecture, btn_student_circle;
 	   
 	   
 	 
@@ -22,7 +23,7 @@ public class Administrator extends JFrame implements ActionListener{
 	      super("관리자");
 	      layInit();
 
-	      setBounds(200, 200, 600, 300);       
+	      setBounds(200, 200, 700, 300);       
 	   }
 
 	   public void layInit() {
@@ -34,7 +35,7 @@ public class Administrator extends JFrame implements ActionListener{
 	      pn=new JPanel();
 	      
 	      // 버튼 8개 초기화
-	      btn_init = new JButton("DB 초기화");
+	      btn_student_professor = new JButton("학생교수관리");
 	      btn_student = new JButton("학생관리");
 	      btn_professor = new JButton("교수관리");
 	      btn_Department = new JButton("학과관리");
@@ -43,11 +44,13 @@ public class Administrator extends JFrame implements ActionListener{
 	      btn_circle = new JButton("동아리관리");
 	      btn_tuition_payment = new JButton("납부내역관리");
 	      btn_table_Lookup = new JButton("테이블조회");
+	      btn_department_lecture = new JButton("학과강의관리");
+	      btn_student_circle = new JButton("동아리학생관리");
 	      
 	      
-	      pn.setLayout(new GridLayout(2,5));
+	      pn.setLayout(new GridLayout(2,6));
 	      // 패널에 버튼 8개 추가
-	      pn.add(btn_init);
+	      pn.add(btn_student_professor);
 	      pn.add(btn_student);
 	      pn.add(btn_professor);
 	      pn.add(btn_Department);
@@ -55,6 +58,8 @@ public class Administrator extends JFrame implements ActionListener{
 	      pn.add(btn_lecture_history);
 	      pn.add(btn_circle);
 	      pn.add(btn_tuition_payment);
+	      pn.add(btn_department_lecture);
+	      pn.add(btn_student_circle);
 	      pn.add(btn_table_Lookup);
 	      
 	      add(pn);
@@ -70,6 +75,9 @@ public class Administrator extends JFrame implements ActionListener{
 	      btn_circle.addActionListener(this);
 	      btn_tuition_payment.addActionListener(this);
 	      btn_table_Lookup.addActionListener(this);
+	      btn_student_professor.addActionListener(this);
+	      btn_department_lecture.addActionListener(this);
+	      btn_student_circle.addActionListener(this);
 
 	   }
 	   
@@ -99,7 +107,17 @@ public class Administrator extends JFrame implements ActionListener{
 		         }else if(e.getSource() == btn_table_Lookup) {
 		        	 Admin_Table_LookUp admin_Table_LookUp = new Admin_Table_LookUp();
 		        	 admin_Table_LookUp.setVisible(true);
+		         }else if(e.getSource() == btn_student_professor) {
+		        	 Manage_student_professor student_professor = new Manage_student_professor();
+		        	 student_professor.setVisible(true);
+		         }else if(e.getSource() == btn_department_lecture) {
+		        	 Manage_department_lecture manage_department_lecture = new Manage_department_lecture();
+		        	 manage_department_lecture.setVisible(true);
+		         }else if(e.getSource() == btn_student_circle) {
+		        	 Manage_student_circle student_circle = new Manage_student_circle();
+		        	 student_circle.setVisible(true);
 		         }
+		         
 		         
 		      
 	   }

@@ -14,7 +14,7 @@ import javax.swing.*;
 public class Student_LookUp extends JFrame implements ActionListener{
 	JPanel pn; 
 	JLabel lecture_LookUp, circle_lookup, grade_lookup , label_grade, label_credit;
-	JButton btn_lecture_lookup, btn_circle_lookup, btn_grade_lookup;
+	JButton btn_lecture_lookup, btn_circle_lookup, btn_grade_lookup, btn_lectime;
 	JLabel student_number, year, semester, circle_student_number, student_grade_number;
 	JTextField tf_student_number, tf_year, tf_semester, tf_circle_student_number, tf_student_grade_number;
 	
@@ -109,6 +109,12 @@ public class Student_LookUp extends JFrame implements ActionListener{
 	      
 	      btn_lecture_lookup.addActionListener(this);
 	      
+	      ///시간표
+	      btn_lectime = new JButton("시간표");
+	      btn_lectime.setBounds(650, 400, 100, 100);
+	      btn_lectime.addActionListener(this);
+	      
+	      
 	      pn.add(lecture_history_scrollPane);
 	      pn.add(btn_lecture_lookup);
 	      pn.add(tf_student_number);
@@ -118,7 +124,7 @@ public class Student_LookUp extends JFrame implements ActionListener{
 	      pn.add(semester);
 	      pn.add(tf_semester);
 	      pn.add(lecture_LookUp);
-	      
+	      pn.add(btn_lectime);
 	      //동아리조회
 	      btn_circle_lookup = new JButton("조회");
 	      btn_circle_lookup.setBounds(730, 10, 100, 30);
@@ -166,6 +172,8 @@ public class Student_LookUp extends JFrame implements ActionListener{
 	      label_credit.setBounds(10, 520, 200, 30);
 	      label_grade.setBounds(240, 520, 200, 30);
 	      
+	      
+	      
 	      pn.add(btn_grade_lookup);
 	      pn.add(student_grade_number);
 	      pn.add(student_grade_number);
@@ -210,14 +218,14 @@ public class Student_LookUp extends JFrame implements ActionListener{
 	            
     			
 	            lecture_history_table.setText("");
-	            lecture_history_table.setText("번호                    학번                     강의번호                 교수번호             출석점수                중간점수              기말점수            기타점수           총합점수             학점(A~F)               수강년도            수강학기\n");
+	            lecture_history_table.setText("번호                    출석점수              중간점수                기말점수            기타점수             총합점수             학점(A~F)            수강년도          수강학기             학생번호               교수번호                  강의번호\n");
             	
 	            
 	            rs = pstmt.executeQuery();
 	            
 	            while (rs.next()) {
-	               String str = rs.getInt(1) + "\t" + rs.getInt(2) + "\t" +  rs.getString(3) + "\t" + rs.getInt(4) + "\t" + rs.getInt(5) + "\t" + rs.getInt(6) + "\t" + rs.getInt(7) + "\t" + rs.getInt(8) + "\t"
-	                     + rs.getInt(9)+ "\t" +rs.getString(10)+  "\t" + rs.getInt(11) + "\t" + rs.getInt(12) +"\n";
+	               String str = rs.getInt(1) + "\t" + rs.getString(2) + "\t" +  rs.getString(3) + "\t" + rs.getString(4) + "\t" + rs.getString(5) + "\t" + rs.getString(6) + "\t" + rs.getString(7) + "\t" + rs.getString(8) + "\t"
+	                     + rs.getString(9)+ "\t" +rs.getInt(10)+  "\t" + rs.getInt(11) + "\t" + rs.getInt(12) +"\n";
 	               lecture_history_table.append(str);
 //			            
 //	            	}
@@ -312,6 +320,10 @@ public class Student_LookUp extends JFrame implements ActionListener{
 		            avg_grade = (float) (caculate_grade / total_credit);
 		            label_credit.setText("취득 학점 : " + total_credit);
 		            label_grade.setText("평점 : " + avg_grade + "(4.5만점)");
+			}else if(e.getSource() == btn_lectime) {
+
+			      Show_Lectime1 lectime = new Show_Lectime1();
+			      lectime.setVisible(true);
 			}
 		}catch(Exception e1) {
 			System.out.println(e1);

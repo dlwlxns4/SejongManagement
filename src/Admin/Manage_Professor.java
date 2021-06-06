@@ -174,8 +174,8 @@ public class Manage_Professor extends JFrame implements ActionListener{
 	            pstmt.setString(7, tf_sub_major.getText());
 	    		if(tf_student.getText().length()!=0)
 	    			pstmt.setInt(8, Integer.parseInt( tf_student.getText()));
-	    		if(tf_student.getText().length()!=0)
-	    			pstmt.setString(9, tf_student.getText());
+	    		if(tf_lecture.getText().length()!=0)
+	    			pstmt.setString(9, tf_lecture.getText());
 	    		
 	            pstmt.executeUpdate();
 	            
@@ -219,7 +219,10 @@ public class Manage_Professor extends JFrame implements ActionListener{
 	            else
 	            	ta_state.setText("정보가 없습니다.");
 	        } catch (SQLException e1) {
-	            System.out.println(e1.getErrorCode());
+	        	if(e1.getErrorCode()==1451) {
+	        		ta_state.setText("지도관계의정보를 삭제후 삭제해주세요.");
+	        	}System.out.println(e1.getErrorCode());
+	            System.out.println(e1);
 	        } catch (Exception e1) {
 	        	ta_state.setText("옳지않은 정보입니다.");
 	        }
@@ -234,6 +237,7 @@ public class Manage_Professor extends JFrame implements ActionListener{
             tf_main_major.setText("");
             tf_sub_major.setText("");
             tf_student.setText("");
+            tf_lecture.setText("");
 
 
 	    }else if(e.getSource() == btn_update) {
@@ -260,8 +264,8 @@ public class Manage_Professor extends JFrame implements ActionListener{
 	            pstmt.setString(6, tf_sub_major.getText());
 	    		if(tf_student.getText().length()!=0)
 	    			pstmt.setInt(7, Integer.parseInt( tf_student.getText()));
-	    		if(tf_student.getText().length()!=0)
-	    			pstmt.setString(8, tf_student.getText());
+	    		if(tf_lecture.getText().length()!=0)
+	    			pstmt.setString(8, tf_lecture.getText());
 	            
 	            int check = pstmt.executeUpdate();
 	            System.out.println(check);
@@ -279,6 +283,7 @@ public class Manage_Professor extends JFrame implements ActionListener{
 	            tf_main_major.setText("");
 	            tf_sub_major.setText("");
 	            tf_student.setText("");
+	            tf_lecture.setText("");
 	            
 
 	        } catch (SQLException e1) {

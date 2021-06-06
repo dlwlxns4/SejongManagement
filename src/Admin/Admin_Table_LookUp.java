@@ -175,7 +175,7 @@ public class Admin_Table_LookUp extends JFrame implements ActionListener{
 	      btn_student_circle.addActionListener(this);
 	      
 	    //lecture has department
-	      btn_lecture_department = new JButton("학생교수관게조회");
+	      btn_lecture_department = new JButton("강의학과관계조회");
 	      btn_lecture_department.setBounds(1280, 715, 200, 25);
 	      lecture_department_table = new JTextArea();
 	      lecture_department_scrollPane = new JScrollPane(lecture_department_table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -223,11 +223,11 @@ public class Admin_Table_LookUp extends JFrame implements ActionListener{
 	            
 
 	            professor_table.setText("");
-	            professor_table.setText("번호                     이름                    주소                     번호                 이메일                                                       주전공             부전공              학생\n");
+	            professor_table.setText("번호                     이름                    주소                     번호                 이메일                                                       주전공             부전공              학생               강의\n");
             	 
 	            rs = stmt.executeQuery(query);
 	            while (rs.next()) {
-	               String str = rs.getInt(1) + "\t" + rs.getString(2) + "\t" +  rs.getString(3) + "\t" + rs.getString(4) + "\t" + rs.getString(5) + "\t" + rs.getString(6) + "\t" + rs.getString(7) + "\t" + rs.getInt(8)
+	               String str = rs.getInt(1) + "\t" + rs.getString(2) + "\t" +  rs.getString(3) + "\t" + rs.getString(4) + "\t" + rs.getString(5) + "\t" + rs.getString(6) + "\t" + rs.getString(7) + "\t" + rs.getInt(8) + "\t" + rs.getString(9)
 	                     +"\n";
 	               professor_table.append(str);
 		            

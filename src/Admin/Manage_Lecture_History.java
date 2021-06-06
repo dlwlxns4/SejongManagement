@@ -180,9 +180,26 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		    if (e.getSource() == btn_input){
 		    	sql = "insert into lecture_history(number, Student_number, Lecture_number, Professor_number"
 		    			+ ", attendance_score, midterm_score, final_score, else_score, total_score, grade, year, semester) value(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		    	int tuition_price = 0, pay_price = 0;
 		    	
 		    	conDB();
-		    	try {  
+		    	try {
+		    		try {
+		    			String query = "select tuition_price, pay_price from payment where number = ?";
+		    			
+		    			pstmt = con.prepareStatement(query);
+		    			pstmt.setInt(1, Integer.parseInt(tf_number.getText()));
+		    			rs = pstmt.executeQuery();
+		    			rs.next();
+		    			tuition_price = Integer.parseInt(rs.getString(1));
+		    			pay_price = Integer.parseInt(rs.getString(2));
+		    		}catch(Exception e1) {
+		    			
+		    		}
+		    		
+		    		System.out.println(tuition_price);
+		    		System.out.println(pay_price);
+		    		if(tuition_price <= pay_price) {
 		    		pstmt = con.prepareStatement(sql);
 		    		
 		    		if(tf_number.getText().length()!=0)
@@ -214,7 +231,9 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		            
 
 		            ta_state.setText("수강내역이 입력되었습니다.");
-		           	            
+		    		}else {
+		    			ta_state.setText("등록금 미납");
+		    		}
 		            tf_number.setText("");
 		            tf_student_number.setText("");
 		            tf_lecture_number.setText("");
@@ -230,12 +249,15 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		            
 		            
 		         }catch (SQLException e1) {
-		        	 if(e1.getErrorCode() == 1062)
-		        		 ta_state.setText("중복된 수강내역 번호입니다.");
-		        	 
+		        	 if(e1.getErrorCode() == 1062) {
+		        		 ta_state.setText("중복된 학생교수관계 정보 번호입니다.");
+		        	 }else if(e1.getErrorCode() == 1452) {
+		        		 ta_state.setText("존재하지않는 학생 또는 교수 또는 강의번호입니다.");
+		        	 }
 		              
 		             else {
 		            	 System.out.println(e1);
+		            	 System.out.println(e1.getErrorCode());
 		            	   ta_state.setText("필수 정보를 모두 입력해주세요.");
 		               }
 		         }catch(Exception e1) {

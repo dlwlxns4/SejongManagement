@@ -223,7 +223,10 @@ public class Manage_Student extends JFrame implements ActionListener{
 	            else
 	            	ta_state.setText("정보가 없습니다.");
 	        } catch (SQLException e1) {
-	            System.out.println(e1.getErrorCode());
+	        	if(e1.getErrorCode()==1451) {
+	        		ta_state.setText("지도관계의정보를 삭제후 삭제해주세요.");
+	        	}System.out.println(e1.getErrorCode());
+	            System.out.println(e1);
 	        } catch (Exception e1) {
 	        	ta_state.setText("옳지않은 정보입니다.");
 	        }
