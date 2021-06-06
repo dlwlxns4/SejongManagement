@@ -278,7 +278,6 @@ public class Manage_Circles extends JFrame implements ActionListener{
 		        		System.out.println(e1);
 		        }
 
-
 		    }
 		         
 		    closeDB();
