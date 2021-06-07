@@ -69,9 +69,7 @@ public class Admin_Table_LookUp extends JFrame implements ActionListener{
 	public void layInit() {
         
 		  
-		  //shop = new RepairShop(con_adm);
 		   
-	      //관리자 화면
 	      pn=new JPanel();
 	      pn.setLayout(null);
 	      pn.setBounds(0,0,1800,1350);
@@ -436,28 +434,7 @@ public class Admin_Table_LookUp extends JFrame implements ActionListener{
 	            		+ "    ON DELETE NO ACTION\r\n"
 	            		+ "    ON UPDATE NO ACTION)\r\n"
 	            		+ "ENGINE = InnoDB");
-	            
-	            stmt.execute("CREATE TABLE IF NOT EXISTS `madang`.`Lecture` (\r\n"
-	            		+ "  `number` INT NOT NULL,\r\n"
-	            		+ "  `class_num` VARCHAR(45) NOT NULL,\r\n"
-	            		+ "  `name` VARCHAR(45) NOT NULL,\r\n"
-	            		+ "  `class_day` VARCHAR(45) NOT NULL,\r\n"
-	            		+ "  `class_time` VARCHAR(45) NOT NULL,\r\n"
-	            		+ "  `grade` VARCHAR(45) NOT NULL,\r\n"
-	            		+ "  `lecture_time` VARCHAR(45) NOT NULL,\r\n"
-	            		+ "  `department` VARCHAR(45) NOT NULL,\r\n"
-	            		+ "  `office` VARCHAR(45) NOT NULL,\r\n"
-	            		+ "  `year` VARCHAR(45) NULL,\r\n"
-	            		+ "  `semester` VARCHAR(45) NULL,\r\n"
-	            		+ "  `professor` INT NOT NULL,\r\n"
-	            		+ "  PRIMARY KEY (`number`),\r\n"
-	            		+ "  INDEX `fk_Lecture_Professor1_idx` (`professor` ASC) VISIBLE,\r\n"
-	            		+ "  CONSTRAINT `fk_Lecture_Professor1`\r\n"
-	            		+ "    FOREIGN KEY (`professor`)\r\n"
-	            		+ "    REFERENCES `madang`.`Professor` (`number`)\r\n"
-	            		+ "    ON DELETE NO ACTION\r\n"
-	            		+ "    ON UPDATE NO ACTION)\r\n"
-	            		+ "ENGINE = InnoDB");
+
 	            
 	            stmt.execute("CREATE TABLE IF NOT EXISTS `madang`.`lecture_history` (\r\n"
 	            		+ "  `number` INT NOT NULL,\r\n"
@@ -720,7 +697,9 @@ public class Admin_Table_LookUp extends JFrame implements ActionListener{
 	            stmt.execute("insert into lecture_history value(23, '100', '100', '60', '60', '80', 'B', '2021', '1', 23, 23, 23)");
 	            stmt.execute("insert into lecture_history value(24, '50', '100', '80', '70', '75', 'C', '2021', '1', 24, 24, 24)");
 	            stmt.execute("insert into lecture_history value(25, '60', '60', '60', '60', '60', 'C', '2021', '1', 25, 25, 25)");
-				
+				stmt.execute("insert into lecture_history value(26, '100', '0', '0', '0', '0', 'B', '2021', '1', 3, 10, 10)");
+				stmt.execute("insert into lecture_history value(27, '100', '0', '0', '0', '0', 'B', '2021', '1', 3, 18, 18)");
+	            
 				stmt.execute("insert into student_has_professor value(1, '2021', '1', 1,1)");
 				stmt.execute("insert into student_has_professor value(2, '2021', '1', 2,2)");
 				stmt.execute("insert into student_has_professor value(3, '2021', '1', 3,3)");
@@ -825,6 +804,7 @@ public class Admin_Table_LookUp extends JFrame implements ActionListener{
 				stmt.execute("insert into Student_has_Circles value(23,23,23)");
 				stmt.execute("insert into Student_has_Circles value(24,24,24)");
 				stmt.execute("insert into Student_has_Circles value(25,25,25)");
+				stmt.execute("insert into Student_has_Circles value(26,24,3)");
 				
 				
 				

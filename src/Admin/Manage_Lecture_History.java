@@ -54,12 +54,12 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		  student_number = new JLabel("학생 번호(필수)");
 		  lecture_number=new JLabel("강좌 번호(필수)");
 		  professor_number=new JLabel("교수 번호(필수)");
-		  attendance_score=new JLabel("출석 점수(필수)");
-		  midterm_score=new JLabel("중간고사 점수(필수)");
-		  final_score=new JLabel("기말고사 점수(필수)");
-		  else_score=new JLabel("기타 점수(필수)");
-		  total=new JLabel("총점(필수)");
-		  grade=new JLabel("평점(필수)");
+		  attendance_score=new JLabel("출석 점수");
+		  midterm_score=new JLabel("중간고사 점수");
+		  final_score=new JLabel("기말고사 점수");
+		  else_score=new JLabel("기타 점수");
+		  total=new JLabel("총점");
+		  grade=new JLabel("평점");
 		  year_taken=new JLabel("수강 년도(20XX)(필수)");
 		  semester_taken=new JLabel("수강 학기(1 or 2)(필수)");
 		  
@@ -185,10 +185,10 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		    	conDB();
 		    	try {
 		    		try {
-		    			String query = "select tuition_price, pay_price from payment where number = ?";
+		    			String query = "select tuition_price, pay_price from payment where student_number = ?";
 		    			
 		    			pstmt = con.prepareStatement(query);
-		    			pstmt.setInt(1, Integer.parseInt(tf_number.getText()));
+		    			pstmt.setInt(1, Integer.parseInt(tf_student_number.getText()));
 		    			rs = pstmt.executeQuery();
 		    			rs.next();
 		    			tuition_price = Integer.parseInt(rs.getString(1));
@@ -200,37 +200,57 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		    		System.out.println(tuition_price);
 		    		System.out.println(pay_price);
 		    		if(tuition_price <= pay_price) {
-		    		pstmt = con.prepareStatement(sql);
-		    		
-		    		if(tf_number.getText().length()!=0)
-		    			pstmt.setInt(1, Integer.parseInt(tf_number.getText()));
-		    		if(tf_student_number.getText().length()!=0)
-		    			pstmt.setInt(2, Integer.parseInt(tf_student_number.getText()) );
-		    		if(tf_lecture_number.getText().length()!=0)
-		    			pstmt.setInt(3, Integer.parseInt(tf_lecture_number.getText()) );
-		    		if(tf_professor_number.getText().length()!=0)
-		    			pstmt.setInt(4, Integer.parseInt(tf_professor_number.getText()) );
-		    		if(tf_attendance_score.getText().length()!=0)
-		    			pstmt.setString(5, tf_attendance_score.getText());
-		    		if(tf_midterm_score.getText().length()!=0)
-		    			pstmt.setString(6, tf_midterm_score.getText());
-		    		if(tf_final_score.getText().length()!=0)
-		    			pstmt.setString(7, tf_final_score.getText());
-		    		if(tf_else_score.getText().length()!=0)
-		    			pstmt.setString(8, tf_else_score.getText() );
-		    		
-		    		pstmt.setString(9, tf_total.getText());
-		    		if(tf_grade.getText().length()!=0)
-		    			pstmt.setString(10, (tf_grade.getText()));
-		    		
-		    		if(tf_year_taken.getText().length() !=0  )
-		    			pstmt.setString(11, tf_year_taken.getText());
-		    		
-		    		pstmt.setString(12, tf_semester_taken.getText());
-		            pstmt.executeUpdate();
-		            
-
-		            ta_state.setText("수강내역이 입력되었습니다.");
+		    			String query = "select sum(grade) from lecture where number IN (select Lecture_number from lecture_history where Student_number = ?  ) ;";
+		    			pstmt = con.prepareStatement(query);
+		    			pstmt.setInt(1, Integer.parseInt(tf_student_number.getText()));
+		    			rs = pstmt.executeQuery();
+		    			rs.next();
+		    			int total_credit = rs.getInt(1);
+		  
+		    			try {
+			    			query = "select grade from lecture where number = ?";
+			    			pstmt = con.prepareStatement(query);
+			    			pstmt.setInt(1, Integer.parseInt(tf_lecture_number.getText()));
+			    			rs = pstmt.executeQuery();
+			    			rs.next();
+			    			total_credit += rs.getInt(1);
+		    			}catch(SQLException e1) {
+		    				System.out.println("::" + e1);
+		    			}
+		    					
+		    			System.out.println(total_credit);
+		    			
+		    			if(total_credit <= 10) {
+				    		pstmt = con.prepareStatement(sql);
+				    		
+				    		if(tf_number.getText().length()!=0)
+				    			pstmt.setInt(1, Integer.parseInt(tf_number.getText()));
+				    		if(tf_student_number.getText().length()!=0)
+				    			pstmt.setInt(2, Integer.parseInt(tf_student_number.getText()) );
+				    		if(tf_lecture_number.getText().length()!=0)
+				    			pstmt.setInt(3, Integer.parseInt(tf_lecture_number.getText()) );
+				    		if(tf_professor_number.getText().length()!=0)
+				    			pstmt.setInt(4, Integer.parseInt(tf_professor_number.getText()) );
+				    		pstmt.setString(5, tf_attendance_score.getText());
+				    		pstmt.setString(6, tf_midterm_score.getText());
+				    		pstmt.setString(7, tf_final_score.getText());
+				    		pstmt.setString(8, tf_else_score.getText() );
+				    		pstmt.setString(9, tf_total.getText());
+				    		pstmt.setString(10, (tf_grade.getText()));
+				    		
+				    		if(tf_year_taken.getText().length() !=0  )
+				    			pstmt.setString(11, tf_year_taken.getText());
+		
+				    		if(tf_semester_taken.getText().length() !=0  )
+				    			pstmt.setString(12, tf_semester_taken.getText());
+				            pstmt.executeUpdate();
+				            
+		
+				            ta_state.setText("수강내역이 입력되었습니다.");
+		    			}
+		    			else {
+		    				ta_state.setText("10학점이 초과되었습니다.");
+		    			}
 		    		}else {
 		    			ta_state.setText("등록금 미납");
 		    		}
@@ -317,18 +337,12 @@ public class Manage_Lecture_History extends JFrame implements ActionListener{
 		    			pstmt.setInt(2, Integer.parseInt(tf_lecture_number.getText()) );
 		    		if(tf_professor_number.getText().length()!=0)
 		    			pstmt.setInt(3, Integer.parseInt(tf_professor_number.getText()) );
-		    		if(tf_attendance_score.getText().length()!=0)
-		    			pstmt.setInt(4, Integer.parseInt( tf_attendance_score.getText()));
-		    		if(tf_midterm_score.getText().length()!=0)
-		    			pstmt.setInt(5, Integer.parseInt(tf_midterm_score.getText()));
-		    		if(tf_final_score.getText().length()!=0)
-		    			pstmt.setInt(6, Integer.parseInt(tf_final_score.getText()));
-		    		if(tf_else_score.getText().length()!=0)
-		    			pstmt.setInt(7, Integer.parseInt(tf_else_score.getText()) );
-		    		if(tf_total.getText().length()!=0)
-		    			pstmt.setInt(8, Integer.parseInt(tf_total.getText()));
-		    		if(tf_grade.getText().length()!=0)
-		    			pstmt.setString(9, (tf_grade.getText()));
+	    			pstmt.setString(4, tf_attendance_score.getText());
+	    			pstmt.setString(5, tf_midterm_score.getText());
+	    			pstmt.setString(6, tf_final_score.getText());
+	    			pstmt.setString(7, tf_else_score.getText() );
+	    			pstmt.setString(8, tf_total.getText());
+	    			pstmt.setString(9, (tf_grade.getText()));
 		            
 		            int check = pstmt.executeUpdate();
 		            System.out.println(check);
